@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+  push:
+    branches:
+      - prod
+    branches-ignore:
+      - staging
+
+jobs:
+  build_docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install checkout
+        uses: actions/checkout@v7
+
+      - name: Check Docker version
+        run: |
+          docker -v
+          docker compose version
