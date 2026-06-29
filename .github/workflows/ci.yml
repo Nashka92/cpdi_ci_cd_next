@@ -3,11 +3,11 @@ name: CI test
 on:
   pull_request:
     branches:
-      - dev
+      - develop
 
   push:
     branches:
-      - dev
+      - develop
 
 jobs:
   build_docker:
@@ -21,3 +21,9 @@ jobs:
         run: |
           docker -v
           docker compose version
+
+      - name: docker up
+        run: docker compose up -d
+
+      - name: install dependencies
+        run: docker compose
