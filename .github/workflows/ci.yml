@@ -22,8 +22,11 @@ jobs:
           docker -v
           docker compose version
 
-      - name: docker up
-        run: docker compose up -d
-
       - name: install dependencies
-        run: docker compose
+        run: docker compose run --rm node npm ci
+
+      - name: lint
+        run: docker compose run --rm node npm run lint
+
+      - name: build app
+        run: docker compose run --rm node npm run build
