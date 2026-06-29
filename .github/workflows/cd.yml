@@ -3,7 +3,7 @@ name: CD Test
 on:
   push:
     branches:
-      - prod
+      - proddddddd
 
 jobs:
   deployed:
