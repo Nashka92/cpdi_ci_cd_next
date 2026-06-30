@@ -7,4 +7,38 @@ services:
       - ./:/front
     ports:
       - "3000:3000"
-    tty: yes
+    tty: true
+
+  postgres:
+    container_name: postgres
+    image: postgres:18-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - 'db:/var/lib/postgresql/18/docker'
+    networks:
+      - myapp
+
+  redis:
+    container_name: redis
+    image: redis:8-alpine
+    command: redis-server ${REDIS_ARG}
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    environment:
+      - REDIS_ARG=${REDIS_ARG}
+    networks:
+      - myapp
+
+networks:
+  myapp:
+    driver: bridge
+
+volumes:
+  db:
+  redis-data:
+    driver: local

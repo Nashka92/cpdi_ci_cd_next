@@ -1,0 +1,24 @@
+name: Renovate
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    container:
+      image: renovate/renovate:latest
+
+    steps:
+      - name: Run Renovate
+        env:
+          RENOVATE_PLATFORM: github
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN || github.token }}
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+        run: renovate

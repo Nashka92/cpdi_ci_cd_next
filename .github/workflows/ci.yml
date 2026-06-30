@@ -1,15 +1,14 @@
-name: CI
+name: CI test
 
 on:
   pull_request:
     branches:
-      - dev
+      - develop
 
   push:
     branches:
+      - develop
       - prod
-    branches-ignore:
-      - staging
 
 jobs:
   build_docker:
@@ -23,3 +22,16 @@ jobs:
         run: |
           docker -v
           docker compose version
+
+      - name: install dependencies
+        run: docker compose run --rm node npm ci
+
+      - name: lint
+        run: docker compose run --rm node npm run lint
+
+      - name: build app
+        run: docker compose run --rm node npm run build
+
+      - name: stop docker
+        if: always()
+        run: docker compose down
