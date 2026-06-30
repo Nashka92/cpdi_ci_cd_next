@@ -1,21 +1,26 @@
-name: Renovate
+name: Renovate Action
 
 on:
-  pull_request:
+  # Permet de lancer Renovate a la main depuis GitHub Actions.
+  workflow_dispatch:
 
 jobs:
   renovate:
     runs-on: ubuntu-latest
+
+    # Donne a Renovate le droit de creer des branches et des pull requests.
     permissions:
       contents: write
       pull-requests: write
       issues: write
+
     container:
       image: renovate/renovate:latest
 
     steps:
       - name: Run Renovate
         env:
+          # Dit a Renovate qu'il travaille sur GitHub, dans ce depot.
           RENOVATE_PLATFORM: github
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN || github.token }}
           RENOVATE_REPOSITORIES: ${{ github.repository }}
