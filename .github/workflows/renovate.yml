@@ -2,8 +2,6 @@ name: Renovate
 
 on:
   pull_request:
-    branches:
-      - develop
 
 jobs:
   renovate:
