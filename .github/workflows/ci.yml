@@ -1,6 +1,11 @@
 name: CI test
 
 on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 3 * * 1'
+
   pull_request:
     branches:
       - develop
@@ -11,6 +16,23 @@ on:
       - prod
 
 jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    container:
+      image: renovate/renovate:latest
+
+    steps:
+      - name: Run Renovate
+        env:
+          RENOVATE_PLATFORM: github
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN || github.token }}
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+        run: renovate
+
   build_docker:
     runs-on: ubuntu-latest
 
